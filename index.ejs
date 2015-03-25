@@ -1,0 +1,54 @@
+<html>
+  <head>
+  <title>Home</title>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script type ="text/javascript" src="/socket.io/socket.io.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+  <style type="text/css">
+    .user_info,.user_info p{
+      font-size: 20px;
+      font-style: bold;
+      margin: 10px;
+      padding: 10px;
+    }
+  </style>
+
+  <script>
+      $(document).ready(function (){
+         //alert("hello");
+         io = io.connect();
+         
+         $('#epic').on('click',function(){
+           io.emit('increase_count');
+         }); 
+
+         io.on('display_count',function(data){
+          console.log(data.new_count);
+          $('.user_info').html("<p>You pushed the button "+data.new_count+" times </p>")
+         });
+
+         $('#reset').on('click',function(){
+           io.emit('reset_count');
+         });
+
+      });//------------------end of jquery
+  </script>
+</head>
+<body class="container">
+ <div class="row">
+  <div class="col-md-5 user_info">
+  
+  </div>
+ </div>
+    <h3>Push the button to update </h3>
+  <div class="row">
+   <div class="col-md-5">
+      <button class="btn btn-primary" id="epic">Epic Button</button>
+      <button class="btn btn-primary" id="reset">Reset Button</button>
+   </div> 
+  </div>   
+ 
+    <!-- web page goes here -->
+</body>
+</html>
